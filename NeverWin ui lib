@@ -1,3 +1,5 @@
+--// by https://v3rmillion.net/member.php?action=profile&uid=1778515 [I think this is the creator, am not sure]
+
 local Library = {}
 
 local NeverloseVersion = "v1.1A."
@@ -6,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local input = game:GetService("UserInputService")
 
 for i,v in next, game.CoreGui:GetChildren() do
-    if v:IsA("ScreenGui") and v.Name == "NeverloseByCryptweb" then
+    if v:IsA("ScreenGui") and v.Name == "Neverlose" then
         v:Destroy() 
     end
 end
@@ -94,6 +96,12 @@ local function clickEffect(options)
     end)
 end
 
+function Library:Toggle(value)
+    if game:GetServer("CoreGui"):FindFirstChild("Neverlose") == nil then return end
+    enabled = (type(value) == "boolean" and value) or game:GetServer("CoreGui"):FindFirstChild("Neverlose").Enabled
+    game:GetServer("CoreGui"):FindFirstChild("Neverlose").Enabled = not enabled
+end
+
 function Library:Window(options)
     options.text = options.text or "NEVERLOSE"
 
@@ -116,7 +124,7 @@ function Library:Window(options)
     local tabContainer = Instance.new("Frame")
 
     SG.Parent = game.CoreGui
-    SG.Name = "NeverloseByCryptweb"
+    SG.Name = "Neverlose"
 
     Body.Name = "Body"
     Body.Parent = SG
@@ -1238,46 +1246,4 @@ function Library:Window(options)
     return tabsections
 end
 
-local Window = Library:Window({text = "DarkAssist"})
-
---//First tab section
-local TS = Window:TabSection({text = "Ur mother"})
-local T = TS:Tab({text = "Mother of nature!", icon = "idk lol"})
-
---// Second tab section
-local TS2 = Window:TabSection({text = "OK"})
-local T2 = TS2:Tab({text = "Ye im not gay"})
-
---// Section setup
-local S1 = T:Section({text = "Niggering"})
-local S2 = T:Section({text = "XD"})
-
-local S3 = T2:Section({text = "Hog Rider Happy"})
-
---// Inner setup
-S1:Toggle({text = "wanna have sex", state = false, callback = function(arg)
-    print("GO:", arg)
-end})
-
-S1:Dropdown({text = "Proof", default = "humanoid", list = {"No", "humanoid", "farting"}, callback = function(arg)
-    print("XD:", arg)
-end})
-
-S1:Textbox({text = "bro", value = "sex?", callback = function(arg)
-    print(arg)
-end})
-
---// Inner setup 2
-
-S2:Keybind({text = "Wow me", default = Enum.KeyCode.E, callback = function(arg)
-    print("Dank memer,", arg)
-end})
-
-
-S3:Slider({text = "FOV", min = 70, max = 120, callback = function(arg)
-    game.Workspace.Camera.FieldOfView = tonumber(arg)
-end})
-
-S3:Slider({text = "Float", min = 70, max = 120, float = 0.7, callback = function(arg)
-    print(arg)
-end})
+return Library
