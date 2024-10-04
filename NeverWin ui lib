@@ -1362,3 +1362,98 @@ function Library:Window(options)
 end
 
 return Library
+
+-- Added UI buttons and functions
+
+
+-- Carregar a biblioteca NeverWin UI
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Player3030/ui-library-sky/refs/heads/main/NeverWin%20ui%20lib"))()
+
+-- Ativar/Desativar a UI
+-- Library:Toggle()
+
+-- Criar a janela principal da interface
+local Window = Library:Window({
+    text = "Sky-Script"
+})
+
+-- Criar a seção de abas (TabSection) que conterá as opções
+local TabSection = Window:TabSection({
+    text = "Menu de opções"
+})
+
+-- Criar uma aba dentro da seção (Tab)
+local Tab = TabSection:Tab({
+    text = "Funções",
+    icon = "rbxassetid://7999345313",
+})
+
+-- Criar uma seção dentro da aba (Section)
+local Section = Tab:Section({
+    text = "Section"
+})
+
+-- Adicionar um botão na seção
+Section:Button({
+    text = "Button",
+    callback = function()
+        print("Clicked button")
+    end,
+})
+
+-- Adicionar um Toggle (Interruptor) na seção
+Section:Toggle({
+    text = "Toggle",
+    state = false, -- Estado inicial (booleano)
+    callback = function(boolean)
+        print("Toggle current: ",boolean)
+    end
+})
+
+-- Adicionar um Slider na seção
+Section:Slider({
+    text = "Slider",
+    min = 10,
+    max = 100,
+    callback = function(number)
+        print(number)
+    end
+})
+
+-- Adicionar um Dropdown (Menu Suspenso) na seção
+Section:Dropdown({
+    text = "Dropdown",
+    list = {"Apple", "Banana","Coconut"},
+    default = "Apple",
+    callback = function(String)
+        print(String)
+    end
+})
+
+-- Adicionar um Textbox na seção
+Section:Textbox({
+    text = "Textbox",
+    value = "Default",
+    callback = function(String)
+        print(String)
+    end
+})
+
+-- Adicionar um Colorpicker na seção
+Section:Colorpicker({
+    text = "Colorpicker",
+    color = Color3.new(1,1,1),
+    callback = function(HSV)
+        print(HSV)
+    end
+})
+
+-- Adicionar um Keybind na seção
+Section:Keybind({
+    text = "Keybind",
+    default = Enum.KeyCode.Z,
+    callback = function(defaultBind)
+        print("Triggered keybind")
+        print(defaultBind)
+    end
+})
