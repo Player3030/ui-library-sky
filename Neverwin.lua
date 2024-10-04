@@ -1,5 +1,6 @@
 -- Carregar a biblioteca NeverWin diretamente do arquivo local
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Player3030/ui-library-sky/refs/heads/main/NeverWin%20ui%20lib"))()
+print(Library)
 
 -- Criar a janela principal da interface
 local Window = Library:Window({
