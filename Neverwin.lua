@@ -2,15 +2,15 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Playe
 -- Toggle UI: Library:Toggle()
 
 local Window = Library:Window({
-    text = "NeverWin"
+    text = "Sky-Script"
 })
 
 local TabSection = Window:TabSection({
-    text = "TabSection"
+    text = "Menu de opções"
 })
 
 local Tab = TabSection:Tab({
-    text = "Tab",
+    text = "Funções",
     icon = "rbxassetid://7999345313",
 })
 
