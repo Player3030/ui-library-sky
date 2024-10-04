@@ -1,120 +1,3 @@
-
-local Library = {}
-
-local NeverloseVersion = "v1.1A."
-local TweenService = game:GetService("TweenService")
-local input = game:GetService("UserInputService")
-
-for i,v in next, game.CoreGui:GetChildren() do
-    if v:IsA("ScreenGui") and v.Name == "NeverWin" then
-        v:Destroy() 
-    end
-end
-
-local themouse = game.Players.LocalPlayer:GetMouse()
-
--- Função para adicionar notificação
-local function Notify(tt, tx)
-    game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = tt,
-        Text = tx,
-        Duration = 5
-    })
-end
-
--- Função para arrastar a interface
-local function Dragify(frame, parent)
-    parent = parent or frame
-
-    local dragging = false
-    local dragInput, mousePos, framePos
-
-    frame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = true
-            mousePos = input.Position
-            framePos = parent.Position
-
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
-                    dragging = false
-                end
-            end)
-        end
-    end)
-
-    frame.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement then
-            dragInput = input
-        end
-    end)
-
-    input.InputChanged:Connect(function(input)
-        if input == dragInput and dragging then
-            local delta = input.Position - mousePos
-            parent.Position  = UDim2.new(framePos.X.Scale, framePos.X.Offset + delta.X, framePos.Y.Scale, framePos.Y.Offset + delta.Y)
-        end
-    end)
-end
-
--- Botões de minimizar e fechar a interface
-local function CreateCloseMinimizeButtons(mainUI)
-    local closeButton = Instance.new("TextButton")
-    local minimizeButton = Instance.new("TextButton")
-
-    -- Propriedades do botão de fechar
-    closeButton.Name = "CloseButton"
-    closeButton.Parent = mainUI
-    closeButton.Text = "X"
-    closeButton.Size = UDim2.new(0, 30, 0, 30)
-    closeButton.Position = UDim2.new(1, -35, 0, 5)
-    closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-    closeButton.TextColor3 = Color3.new(1, 1, 1)
-    closeButton.MouseButton1Click:Connect(function()
-        mainUI:Destroy()
-    end)
-
-    -- Propriedades do botão de minimizar
-    minimizeButton.Name = "MinimizeButton"
-    minimizeButton.Parent = mainUI
-    minimizeButton.Text = "-"
-    minimizeButton.Size = UDim2.new(0, 30, 0, 30)
-    minimizeButton.Position = UDim2.new(1, -70, 0, 5)
-    minimizeButton.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
-    minimizeButton.TextColor3 = Color3.new(1, 1, 1)
-    local minimized = false
-
-    minimizeButton.MouseButton1Click:Connect(function()
-        if minimized then
-            mainUI.Size = UDim2.new(0, 400, 0, 300) -- tamanho original da UI
-        else
-            mainUI.Size = UDim2.new(0, 400, 0, 40) -- minimiza a UI
-        end
-        minimized = not minimized
-    end)
-end
-
--- Criação da interface principal
-local mainUI = Instance.new("ScreenGui")
-mainUI.Name = "NeverWin"
-mainUI.Parent = game.CoreGui
-
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 400, 0, 300)
-frame.Position = UDim2.new(0.5, -200, 0.5, -150)
-frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-frame.Parent = mainUI
-
-CreateCloseMinimizeButtons(frame)  -- Adiciona os botões à interface
-
-Dragify(frame)  -- Permite arrastar a interface
-
--- Retorna a library ajustada
-return Library
-
-
--- Merged with file 2 content
-
 local Library = {}
 
 local NeverloseVersion = "v1.1A."
@@ -123,7 +6,7 @@ local TweenService = game:GetService("TweenService")
 local input = game:GetService("UserInputService")
 
 for i,v in next, game.CoreGui:GetChildren() do
-    if v:IsA("ScreenGui") and v.Name == "NeverWin" then
+    if v:IsA("ScreenGui") and v.Name == "NeverloseByCryptweb" then
         v:Destroy() 
     end
 end
@@ -211,14 +94,8 @@ local function clickEffect(options)
     end)
 end
 
-function Library:Toggle(value)
-    if game:GetServer("CoreGui"):FindFirstChild("Neverlose") == nil then return end
-    enabled = (type(value) == "boolean" and value) or game:GetServer("CoreGui"):FindFirstChild("Neverlose").Enabled
-    game:GetServer("CoreGui"):FindFirstChild("Neverlose").Enabled = not enabled
-end
-
 function Library:Window(options)
-    options.text = options.text or "NEVERWIN"
+    options.text = options.text or "NEVERLOSE"
 
     local SG = Instance.new("ScreenGui")
     local Body = Instance.new("Frame")
@@ -239,7 +116,7 @@ function Library:Window(options)
     local tabContainer = Instance.new("Frame")
 
     SG.Parent = game.CoreGui
-    SG.Name = "Neverwin"
+    SG.Name = "NeverloseByCryptweb"
 
     Body.Name = "Body"
     Body.Parent = SG
@@ -1361,99 +1238,46 @@ function Library:Window(options)
     return tabsections
 end
 
-return Library
+local Window = Library:Window({text = "DarkAssist"})
 
--- Added UI buttons and functions
+--//First tab section
+local TS = Window:TabSection({text = "Ur mother"})
+local T = TS:Tab({text = "Mother of nature!", icon = "idk lol"})
+
+--// Second tab section
+local TS2 = Window:TabSection({text = "OK"})
+local T2 = TS2:Tab({text = "Ye im not gay"})
+
+--// Section setup
+local S1 = T:Section({text = "Niggering"})
+local S2 = T:Section({text = "XD"})
+
+local S3 = T2:Section({text = "Hog Rider Happy"})
+
+--// Inner setup
+S1:Toggle({text = "wanna have sex", state = false, callback = function(arg)
+    print("GO:", arg)
+end})
+
+S1:Dropdown({text = "Proof", default = "humanoid", list = {"No", "humanoid", "farting"}, callback = function(arg)
+    print("XD:", arg)
+end})
+
+S1:Textbox({text = "bro", value = "sex?", callback = function(arg)
+    print(arg)
+end})
+
+--// Inner setup 2
+
+S2:Keybind({text = "Wow me", default = Enum.KeyCode.E, callback = function(arg)
+    print("Dank memer,", arg)
+end})
 
 
--- Carregar a biblioteca NeverWin UI
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Player3030/ui-library-sky/refs/heads/main/NeverWin%20ui%20lib"))()
+S3:Slider({text = "FOV", min = 70, max = 120, callback = function(arg)
+    game.Workspace.Camera.FieldOfView = tonumber(arg)
+end})
 
--- Ativar/Desativar a UI
--- Library:Toggle()
-
--- Criar a janela principal da interface
-local Window = Library:Window({
-    text = "Sky-Script"
-})
-
--- Criar a seção de abas (TabSection) que conterá as opções
-local TabSection = Window:TabSection({
-    text = "Menu de opções"
-})
-
--- Criar uma aba dentro da seção (Tab)
-local Tab = TabSection:Tab({
-    text = "Funções",
-    icon = "rbxassetid://7999345313",
-})
-
--- Criar uma seção dentro da aba (Section)
-local Section = Tab:Section({
-    text = "Section"
-})
-
--- Adicionar um botão na seção
-Section:Button({
-    text = "Button",
-    callback = function()
-        print("Clicked button")
-    end,
-})
-
--- Adicionar um Toggle (Interruptor) na seção
-Section:Toggle({
-    text = "Toggle",
-    state = false, -- Estado inicial (booleano)
-    callback = function(boolean)
-        print("Toggle current: ",boolean)
-    end
-})
-
--- Adicionar um Slider na seção
-Section:Slider({
-    text = "Slider",
-    min = 10,
-    max = 100,
-    callback = function(number)
-        print(number)
-    end
-})
-
--- Adicionar um Dropdown (Menu Suspenso) na seção
-Section:Dropdown({
-    text = "Dropdown",
-    list = {"Apple", "Banana","Coconut"},
-    default = "Apple",
-    callback = function(String)
-        print(String)
-    end
-})
-
--- Adicionar um Textbox na seção
-Section:Textbox({
-    text = "Textbox",
-    value = "Default",
-    callback = function(String)
-        print(String)
-    end
-})
-
--- Adicionar um Colorpicker na seção
-Section:Colorpicker({
-    text = "Colorpicker",
-    color = Color3.new(1,1,1),
-    callback = function(HSV)
-        print(HSV)
-    end
-})
-
--- Adicionar um Keybind na seção
-Section:Keybind({
-    text = "Keybind",
-    default = Enum.KeyCode.Z,
-    callback = function(defaultBind)
-        print("Triggered keybind")
-        print(defaultBind)
-    end
-})
+S3:Slider({text = "Float", min = 70, max = 120, float = 0.7, callback = function(arg)
+    print(arg)
+end})
