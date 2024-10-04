@@ -1,4 +1,4 @@
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/felonist/GameSense-UI-Roblox/main/NeverWin%20ui%20lib"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Player3030/ui-library-sky/refs/heads/main/NeverWin%20ui%20lib"))()
 -- Toggle UI: Library:Toggle()
 
 local Window = Library:Window({
