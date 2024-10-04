@@ -1,23 +1,28 @@
+-- Carregar a biblioteca NeverWin diretamente do arquivo local
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Player3030/ui-library-sky/refs/heads/main/NeverWin%20ui%20lib"))()
--- Toggle UI: Library:Toggle()
 
+-- Criar a janela principal da interface
 local Window = Library:Window({
     text = "Sky-Script"
 })
 
+-- Criar a seção de abas (TabSection)
 local TabSection = Window:TabSection({
     text = "Menu de opções"
 })
 
+-- Criar uma aba (Tab)
 local Tab = TabSection:Tab({
     text = "Funções",
     icon = "rbxassetid://7999345313",
 })
 
+-- Criar uma seção (Section)
 local Section = Tab:Section({
     text = "Section"
 })
 
+-- Adicionar os botões e outros elementos de UI
 Section:Button({
     text = "Button",
     callback = function()
@@ -27,9 +32,9 @@ Section:Button({
 
 Section:Toggle({
     text = "Toggle",
-    state = false, -- Default boolean
+    state = false, 
     callback = function(boolean)
-        print("Toggle current: ",boolean)
+        print("Toggle current: ", boolean)
     end
 })
 
@@ -37,7 +42,6 @@ Section:Slider({
     text = "Slider",
     min = 10,
     max = 100,
-    -- [[Float = 0,]] Idk what it does
     callback = function(number)
         print(number)
     end
@@ -45,7 +49,7 @@ Section:Slider({
 
 Section:Dropdown({
     text = "Dropdown",
-    list = {"Apple", "Banana","Coconut"},
+    list = {"Apple", "Banana", "Coconut"},
     default = "Apple",
     callback = function(String)
         print(String)
@@ -67,15 +71,6 @@ Section:Colorpicker({
         print(HSV)
     end
 })
-
---[[
-    blacklisted keybind:
-        Return
-        Space
-        Tab
-        W,A,S,D,I,O
-        Unknown
-]]
 
 Section:Keybind({
     text = "Keybind",
