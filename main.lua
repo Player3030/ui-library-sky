@@ -15,8 +15,15 @@ local Tabs = {
     Main = Window:AddTab({ Title = "Main", Icon = "main" })
 }
 
--- Função para o Auto Clicker
+-- Variáveis globais
 local autoClickerEnabled = false
+local espEnabled = false
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local RunService = game:GetService("RunService")
+local colourChosen = Color3.fromRGB(255, 0, 0) -- Cor do ESP
+
+-- Função para o Auto Clicker
 local function autoClicker()
     while autoClickerEnabled do
         -- Simulando o clique do mouse
@@ -26,7 +33,7 @@ local function autoClicker()
 end
 
 -- Adicionando o Toggle do Auto Clicker na aba "Main"
-local Toggle = Tabs.Main:AddToggle("AutoClicker", {
+Tabs.Main:AddToggle("AutoClicker", {
     Title = "Auto Clicker",
     Default = false,
     Callback = function(Value)
@@ -40,21 +47,71 @@ local Toggle = Tabs.Main:AddToggle("AutoClicker", {
     end
 })
 
+-- Funções de ESP
+local function addHighlightToCharacter(character)
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    if humanoidRootPart and not humanoidRootPart:FindFirstChild("Highlight") then
+        local highlightClone = Instance.new("Highlight")
+        highlightClone.Name = "Highlight"
+        highlightClone.Adornee = character
+        highlightClone.Parent = humanoidRootPart
+        highlightClone.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+        highlightClone.FillColor = colourChosen
+        highlightClone.OutlineColor = Color3.fromRGB(255, 255, 255)
+        highlightClone.FillTransparency = 0.5
+    end
+end
+
+local function removeHighlightFromCharacter(character)
+    local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+    if humanoidRootPart then
+        local highlightInstance = humanoidRootPart:FindFirstChild("Highlight")
+        if highlightInstance then
+            highlightInstance:Destroy()
+        end
+    end
+end
+
+local function updateHighlights()
+    for _, player in pairs(Players:GetPlayers()) do
+        local character = player.Character or player.CharacterAdded:Wait()
+        if espEnabled then
+            addHighlightToCharacter(character)
+        else
+            removeHighlightFromCharacter(character)
+        end
+    end
+end
+
+-- Conecta os eventos através do RenderStepped para realizar o loop
+RunService.RenderStepped:Connect(function()
+    updateHighlights()
+end)
+
+-- Adicionando Toggle do ESP na aba "Main"
+Tabs.Main:AddToggle("ESP", {
+    Title = "ESP",
+    Default = false,
+    Callback = function(Value)
+        espEnabled = Value
+        print(espEnabled and "ESP ativado." or "ESP desativado.")
+        updateHighlights() -- Atualiza os destaques imediatamente
+    end
+})
+
 -- Adicionando um botão para executar o Hitbox Expander
 Tabs.Main:AddButton({
     Title = "Execute Hitbox Expander",
     Description = "Clique para ativar o Hitbox Expander.",
     Callback = function()
-        -- Executando o script do Hitbox Expander
         _G.HeadSize = 50
         _G.Disabled = true
-
         game:GetService('RunService').RenderStepped:connect(function()
             if _G.Disabled then
-                for i,v in next, game:GetService('Players'):GetPlayers() do
+                for i, v in next, game:GetService('Players'):GetPlayers() do
                     if v.Name ~= game:GetService('Players').LocalPlayer.Name then
                         pcall(function()
-                            v.Character.HumanoidRootPart.Size = Vector3.new(_G.HeadSize,_G.HeadSize,_G.HeadSize)
+                            v.Character.HumanoidRootPart.Size = Vector3.new(_G.HeadSize, _G.HeadSize, _G.HeadSize)
                             v.Character.HumanoidRootPart.Transparency = 0.7
                             v.Character.HumanoidRootPart.BrickColor = BrickColor.new("Really blue")
                             v.Character.HumanoidRootPart.Material = "Neon"
@@ -76,15 +133,13 @@ local function autoRejoin()
     local StarterGui = game:GetService("StarterGui")
     local localPlayer = Players.LocalPlayer
 
-    -- Pegando o UserId do jogador e criando a URL do avatar dele
     local playerAvatarIcon = "https://www.roblox.com/headshot-thumbnail/image?userId="..localPlayer.UserId.."&width=420&height=420&format=png"
 
-    -- Enviando notificação com o nome do jogador e o avatar dele
     StarterGui:SetCore("SendNotification", {
-        Title = localPlayer.Name, -- Nome do jogador que executou
+        Title = localPlayer.Name,
         Text = "Executed",
         Duration = 5,
-        Icon = playerAvatarIcon -- Ícone com o avatar do jogador
+        Icon = playerAvatarIcon
     })
 
     local gui = game.CoreGui.RobloxPromptGui.promptOverlay:WaitForChild("ErrorPrompt")
@@ -107,7 +162,6 @@ local function autoRejoin()
 
     local rejoin = leave.Parent:FindFirstChild("Rejoin")
 
-    -- Função para reconectar o jogador
     rejoin.MouseButton1Click:Connect(function()
         if #Players:GetPlayers() <= 1 then
             game.Players.LocalPlayer:kick("Rejoining...")
@@ -121,14 +175,14 @@ local function autoRejoin()
 end
 
 -- Adicionando o Toggle de Auto Rejoin na aba "Main"
-local Toggle = Tabs.Main:AddToggle("AutoRejoin", {
+Tabs.Main:AddToggle("AutoRejoin", {
     Title = "Auto Rejoin",
     Default = false,
     Callback = function(Value)
         autoRejoinEnabled = Value
         if autoRejoinEnabled then
             print("Auto Rejoin ativado.")
-            task.spawn(autoRejoin) -- Inicia o Auto Rejoin
+            task.spawn(autoRejoin)
         else
             print("Auto Rejoin desativado.")
         end
