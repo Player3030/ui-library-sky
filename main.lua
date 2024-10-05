@@ -1,8 +1,8 @@
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
 local Window = Fluent:CreateWindow({
-    Title = "Fluent " .. Fluent.Version,
-    SubTitle = "by dawid",
+    Title = "Sky-09 ",
+    SubTitle = "by naosei & naka",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
     Acrylic = true, -- O blur pode ser detectado, defina como false para desativar o blur
@@ -12,7 +12,7 @@ local Window = Fluent:CreateWindow({
 
 -- Criando a aba "Main"
 local Tabs = {
-    Main = Window:AddTab({ Title = "Main", Icon = "" })
+    Main = Window:AddTab({ Title = "Main", Icon = "main" })
 }
 
 -- Função para o Auto Clicker
@@ -82,7 +82,7 @@ local function autoRejoin()
     -- Enviando notificação com o nome do jogador e o avatar dele
     StarterGui:SetCore("SendNotification", {
         Title = localPlayer.Name, -- Nome do jogador que executou
-        Text = "Auto Rejoin foi ativado com sucesso !",
+        Text = "Executed",
         Duration = 5,
         Icon = playerAvatarIcon -- Ícone com o avatar do jogador
     })
